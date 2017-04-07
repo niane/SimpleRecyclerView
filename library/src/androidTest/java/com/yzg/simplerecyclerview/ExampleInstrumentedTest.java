@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.yzg.simplerecyclerview", appContext.getPackageName());
+        assertEquals("com.yzg.simplerecyclerview.test", appContext.getPackageName());
     }
 }

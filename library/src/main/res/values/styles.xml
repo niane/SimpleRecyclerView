@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SimpleRecyclerView">
+        <attr name="loadmore_enabled" format="boolean"/>
+        <attr name="loadmore_layout" format="reference"/>
+        <attr name="empty_page_layout" format="reference"/>
+    </declare-styleable>
+
+    <style name="Progress_loading">
+        <item name="android:indeterminateDrawable">@drawable/loading_rotate</item>
+        <item name="android:minWidth">30dp</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:maxWidth">30dp</item>
+        <item name="android:maxHeight">30dp</item>
+    </style>
+
+</resources>
