@@ -21,6 +21,29 @@ android {
     }
 }
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayPackage = 'SimpleRecyclerView'
+
+    publishGroupId = 'com.yzg.simplerecyclerview'
+    artifact = 'library'
+    libraryVersion = '1.0'
+
+    libraryDesc = 'Android SimpleRecyclerView'
+
+    siteUrl = 'https://github.com/niane/SimpleRecyclerView'
+    gitUrl = 'https://github.com/niane/SimpleRecyclerView.git'
+
+    developerId = 'niane'
+    developerName = 'yu zhi guan'
+    developerEmail = 'yzgniane@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+
+    allLicenses = ["Apache-2.0"]
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -31,3 +54,5 @@ dependencies {
 
     compile deps.design
 }
+
+apply from: './maven.gradle'
