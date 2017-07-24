@@ -13,9 +13,13 @@ interface IContainer {
 
     void addHeaderView(@LayoutRes int resLayout);
 
+    void removeHeaderView(View view);
+
     void addFooterView(View view);
 
     void addFooterView(@LayoutRes int resLayout);
+
+    void removeFooterView(View view);
 
     void setLoadMoreView(View view);
 
@@ -34,6 +38,8 @@ interface IContainer {
     boolean hasEmpty();
 
     void setStatus(@SimpleRecyclerView.Status int status);
+
+    void setStatus(@SimpleRecyclerView.Status int status, String msg);
 
     int getStatus();
 

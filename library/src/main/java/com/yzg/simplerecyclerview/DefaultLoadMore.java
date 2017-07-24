@@ -2,6 +2,7 @@ package com.yzg.simplerecyclerview;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,20 +35,20 @@ public class DefaultLoadMore extends FrameLayout implements SimpleRecyLoadMore {
     }
 
     @Override
-    public void onLoading() {
-        textView.setText("加载中...");
+    public void onLoading(String msg) {
+        textView.setText(TextUtils.isEmpty(msg) ? "加载中..." : msg);
         progressBar.setVisibility(VISIBLE);
     }
 
     @Override
-    public void onLoadOver() {
-        textView.setText("到底了");
+    public void onLoadOver(String msg) {
+        textView.setText(TextUtils.isEmpty(msg) ? "到底了" : msg);
         progressBar.setVisibility(GONE);
     }
 
     @Override
-    public void onLoadError() {
-        textView.setText("出错了");
+    public void onLoadError(String msg) {
+        textView.setText(TextUtils.isEmpty(msg) ? "出错了" : msg);
         progressBar.setVisibility(GONE);
     }
 }

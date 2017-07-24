@@ -5,9 +5,9 @@ package com.yzg.simplerecyclerview;
  */
 
 public interface SimpleRecyEmpty {
-    void onRefreshError();
+    void onRefreshError(String msg);
 
-    void onEmpty();
+    void onEmpty(String msg);
 
-    void onLoading();
+    void onLoading(String msg);
 }

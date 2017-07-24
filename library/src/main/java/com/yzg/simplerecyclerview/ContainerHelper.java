@@ -50,6 +50,13 @@ class ContainerHelper implements IContainer{
     }
 
     @Override
+    public void removeHeaderView(View view) {
+        if(mHeaderContainer != null && view.getParent() == mHeaderContainer){
+            mHeaderContainer.removeView(view);
+        }
+    }
+
+    @Override
     public void addFooterView(View view) {
         if(view == null) return;
         ensureFooterContainer();
@@ -60,6 +67,13 @@ class ContainerHelper implements IContainer{
     public void addFooterView(@LayoutRes int resLayout) {
         if(resLayout < 0) return;
         addFooterView(inflater.inflate(resLayout, mFooterContainer, false));
+    }
+
+    @Override
+    public void removeFooterView(View view) {
+        if(mFooterContainer != null && view.getParent() == mFooterContainer){
+            mFooterContainer.removeView(view);
+        }
     }
 
     @Override
@@ -124,6 +138,11 @@ class ContainerHelper implements IContainer{
 
     @Override
     public void setStatus(@SimpleRecyclerView.Status int status) {
+        setStatus(status, "");
+    }
+
+    @Override
+    public void setStatus(@SimpleRecyclerView.Status int status, String msg) {
         mStatus = status;
         switch (status){
             case SimpleRecyclerView.STATUS_DEFAULT:
@@ -135,7 +154,7 @@ class ContainerHelper implements IContainer{
                 mEmptyContainer = tmpEmptyContainer;
                 if(hasEmpty()){
                     SimpleRecyEmpty simpleRecyEmpty = (SimpleRecyEmpty) mEmptyContainer.getChildAt(0);
-                    simpleRecyEmpty.onLoading();
+                    simpleRecyEmpty.onLoading(msg);
                     mEmptyContainer.setOnClickListener(null);
                 }
                 break;
@@ -144,12 +163,12 @@ class ContainerHelper implements IContainer{
                 mEmptyContainer = tmpEmptyContainer;
                 if(hasEmpty()){
                     final SimpleRecyEmpty simpleRecyEmpty = (SimpleRecyEmpty) mEmptyContainer.getChildAt(0);
-                    simpleRecyEmpty.onRefreshError();
+                    simpleRecyEmpty.onRefreshError(msg);
                     mEmptyContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if(onLoadListener != null){
-                                simpleRecyEmpty.onLoading();
+//                                simpleRecyEmpty.onLoading();
                                 onLoadListener.onRefresh();
                             }
                         }
@@ -161,12 +180,12 @@ class ContainerHelper implements IContainer{
                 mEmptyContainer = tmpEmptyContainer;
                 if(hasEmpty()){
                     final SimpleRecyEmpty simpleRecyEmpty = (SimpleRecyEmpty) mEmptyContainer.getChildAt(0);
-                    simpleRecyEmpty.onEmpty();
+                    simpleRecyEmpty.onEmpty(msg);
                     mEmptyContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if(onLoadListener != null){
-                                simpleRecyEmpty.onLoading();
+//                                simpleRecyEmpty.onLoading();
                                 onLoadListener.onRefresh();
                             }
                         }
@@ -178,7 +197,7 @@ class ContainerHelper implements IContainer{
                 mLoadMoreFooterContainer = tmpLoadMoreFooterContainer;
                 if(hasLoadMore()){
                     SimpleRecyLoadMore simpleRecyLoadMore = (SimpleRecyLoadMore) mLoadMoreFooterContainer.getChildAt(0);
-                    simpleRecyLoadMore.onLoading();
+                    simpleRecyLoadMore.onLoading(msg);
                     mLoadMoreFooterContainer.setOnClickListener(null);
                 }
                 break;
@@ -187,7 +206,7 @@ class ContainerHelper implements IContainer{
                 mLoadMoreFooterContainer = tmpLoadMoreFooterContainer;
                 if(hasLoadMore()){
                     SimpleRecyLoadMore simpleRecyLoadMore = (SimpleRecyLoadMore) mLoadMoreFooterContainer.getChildAt(0);
-                    simpleRecyLoadMore.onLoadOver();
+                    simpleRecyLoadMore.onLoadOver(msg);
                     mLoadMoreFooterContainer.setOnClickListener(null);
                 }
                 break;
@@ -196,12 +215,12 @@ class ContainerHelper implements IContainer{
                 mLoadMoreFooterContainer = tmpLoadMoreFooterContainer;
                 if(hasLoadMore()){
                     SimpleRecyLoadMore simpleRecyLoadMore = (SimpleRecyLoadMore) mLoadMoreFooterContainer.getChildAt(0);
-                    simpleRecyLoadMore.onLoadError();
+                    simpleRecyLoadMore.onLoadError(msg);
                     mLoadMoreFooterContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if(onLoadListener != null){
-                                setStatus(SimpleRecyclerView.STATUS_LOADING_MORE);
+//                                setStatus(SimpleRecyclerView.STATUS_LOADING_MORE);
                                 onLoadListener.onLoadMore();
                             }
                         }

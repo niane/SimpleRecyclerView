@@ -7,6 +7,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import java.lang.annotation.Retention;
@@ -16,7 +17,7 @@ import java.lang.annotation.RetentionPolicy;
  * Created by yzg on 2017/3/3.
  */
 
-public class SimpleRecyclerView extends RecyclerView {
+public class SimpleRecyclerView extends RecyclerView implements IContainer{
     private static final String TAG = SimpleRecyclerView.class.getSimpleName();
 
     /**
@@ -106,7 +107,8 @@ public class SimpleRecyclerView extends RecyclerView {
                         && canTriggerLoadMore(recyclerView)) {
 
                     if (mLoadMoreEnbled && mOnLoadMoreListener != null && !mContainerHelper.hasLoadMore()) {
-                        setStatus(STATUS_LOADING_MORE);
+                        //在onLoadMore中调用setStatus(STATUS_LOADING_MORE);
+//                        setStatus(STATUS_LOADING_MORE);
                         mOnLoadMoreListener.onLoadMore();
                         recyclerView.smoothScrollToPosition(getAdapter().getItemCount() - 1);
                     }
@@ -123,21 +125,39 @@ public class SimpleRecyclerView extends RecyclerView {
         return totalItemCount - 1 == position;
     }
 
+    public void enableLoadMore(boolean enabledLoadMore){
+        mLoadMoreEnbled = enabledLoadMore;
+    }
+
+    public Adapter getUserAdapter() {
+        if(getAdapter() != null){
+            return ((RecyWrapperAdapter) super.getAdapter()).getAdapter();
+        }
+
+        return null;
+    }
+
+    @Override
+    public void setAdapter(Adapter adapter) {
+        super.setAdapter(new RecyWrapperAdapter(adapter, mContainerHelper));
+    }
+
     public void addHeaderView(View headerView) {
         if(headerView == null) return;
         mContainerHelper.addHeaderView(headerView);
         Adapter adapter = getAdapter();
         if (adapter != null) {
-            adapter.notifyItemChanged(adapter.getItemCount() - 1);
+            adapter.notifyDataSetChanged();
         }
     }
 
     public void addHeaderView(@LayoutRes int resLayout) {
-        mContainerHelper.addHeaderView(resLayout);
-        Adapter adapter = getAdapter();
-        if (adapter != null) {
-            adapter.notifyItemChanged(adapter.getItemCount() - 1);
-        }
+        addHeaderView(LayoutInflater.from(getContext()).inflate(resLayout, null));
+    }
+
+    @Override
+    public void removeHeaderView(View view) {
+        mContainerHelper.removeHeaderView(view);
     }
 
     public void addFooterView(View footerView) {
@@ -145,16 +165,17 @@ public class SimpleRecyclerView extends RecyclerView {
         mContainerHelper.addFooterView(footerView);
         Adapter adapter = getAdapter();
         if (adapter != null) {
-            adapter.notifyItemChanged(adapter.getItemCount() - 1);
+            adapter.notifyDataSetChanged();
         }
     }
 
     public void addFooterView(@LayoutRes int resLayout) {
-        mContainerHelper.addFooterView(resLayout);
-        Adapter adapter = getAdapter();
-        if (adapter != null) {
-            adapter.notifyItemChanged(adapter.getItemCount() - 1);
-        }
+        addFooterView(LayoutInflater.from(getContext()).inflate(resLayout, null));
+    }
+
+    @Override
+    public void removeFooterView(View view) {
+        mContainerHelper.removeFooterView(view);
     }
 
     public void setLoadMoreView(View view){
@@ -173,39 +194,47 @@ public class SimpleRecyclerView extends RecyclerView {
         mContainerHelper.setEmptyView(resLayout);
     }
 
-    public Adapter getUserAdapter() {
-        if(getAdapter() != null){
-            return ((RecyWrapperAdapter) super.getAdapter()).getAdapter();
-        }
-
-        return null;
+    @Override
+    public boolean hasHeader() {
+        return mContainerHelper.hasHeader();
     }
 
     @Override
-    public void setAdapter(Adapter adapter) {
-        super.setAdapter(new RecyWrapperAdapter(adapter, mContainerHelper));
+    public boolean hasFooter() {
+        return mContainerHelper.hasFooter();
     }
 
-    public void enableLoadMore(boolean enabledLoadMore){
-        mLoadMoreEnbled = enabledLoadMore;
+    @Override
+    public boolean hasLoadMore() {
+        return mContainerHelper.hasLoadMore();
+    }
+
+    @Override
+    public boolean hasEmpty() {
+        return mContainerHelper.hasEmpty();
+    }
+
+    @Override
+    public void setStatus(@Status int status) {
+        setStatus(status, "");
     }
 
     public int getStatus() {
         return mContainerHelper.getStatus();
     }
 
-    public void setStatus(@Status int status) {
+    public void setStatus(@Status int status, String msg) {
         /**
          * 当status为 STATUS_REFRESHING || STATUS_REFRESH_EMPTY || STATUS_REFRESH_ERROR时，必须保证数据为空
          */
         if(status == STATUS_REFRESHING || status == STATUS_REFRESH_EMPTY || status == STATUS_REFRESH_ERROR){
             if(getUserAdapter() != null && getUserAdapter().getItemCount() != 0){
-                mContainerHelper.setStatus(STATUS_DEFAULT);
+                mContainerHelper.setStatus(STATUS_DEFAULT, msg);
             }else {
-                mContainerHelper.setStatus(status);
+                mContainerHelper.setStatus(status, msg);
             }
         }else {
-            mContainerHelper.setStatus(status);
+            mContainerHelper.setStatus(status, msg);
         }
 
         if (getAdapter() != null)

@@ -66,11 +66,13 @@ public class MainActivity extends AppCompatActivity {
         simpleRecyclerView.setOnLoadListener(new SimpleRecyclerView.OnLoadListener() {
             @Override
             public void onLoadMore() {
+                simpleRecyclerView.setStatus(SimpleRecyclerView.STATUS_LOADING_MORE);
                 requestDataList();
             }
 
             @Override
             public void onRefresh() {
+                simpleRecyclerView.setStatus(SimpleRecyclerView.STATUS_REFRESHING);
                 pageNO = 0;
                 requestDataList();
             }
@@ -119,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
                     case ERROR:
                         if(pageNO == 0){
                             mList.clear();
-                            simpleRecyclerView.setStatus(SimpleRecyclerView.STATUS_REFRESH_ERROR);
+                            simpleRecyclerView.setStatus(SimpleRecyclerView.STATUS_REFRESH_ERROR, "出错了，点击重试");
                         }else {
-                            simpleRecyclerView.setStatus(SimpleRecyclerView.STATUS_LOAD_MORE_ERROR);
+                            simpleRecyclerView.setStatus(SimpleRecyclerView.STATUS_LOAD_MORE_ERROR, "出错了，点击重试");
                         }
                         break;
                     case OVER:

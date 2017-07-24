@@ -1,6 +1,7 @@
 package com.yzg.simplerecyclerview;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,24 +34,24 @@ public class DefaultEmptyView extends FrameLayout implements SimpleRecyEmpty {
     }
 
     @Override
-    public void onRefreshError() {
-        txtLoading.setText("出错了");
+    public void onRefreshError(String msg) {
+        txtLoading.setText(TextUtils.isEmpty(msg) ? "出错了" : msg);
         imgError.setVisibility(VISIBLE);
         imgEmpty.setVisibility(GONE);
         progressBar.setVisibility(GONE);
     }
 
     @Override
-    public void onEmpty() {
-        txtLoading.setText("暂无数据");
+    public void onEmpty(String msg) {
+        txtLoading.setText(TextUtils.isEmpty(msg) ? "暂无数据" : msg);
         imgEmpty.setVisibility(VISIBLE);
         imgError.setVisibility(GONE);
         progressBar.setVisibility(GONE);
     }
 
     @Override
-    public void onLoading() {
-        txtLoading.setText("正在加载");
+    public void onLoading(String msg) {
+        txtLoading.setText(TextUtils.isEmpty(msg) ? "正在加载" : msg);
         imgEmpty.setVisibility(GONE);
         imgError.setVisibility(GONE);
         progressBar.setVisibility(VISIBLE);

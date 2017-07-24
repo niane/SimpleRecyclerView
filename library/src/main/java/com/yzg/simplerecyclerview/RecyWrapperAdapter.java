@@ -20,9 +20,48 @@ class RecyWrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final RecyclerView.Adapter mAdapter;
     private ContainerHelper mContainerHelper;
 
+    private RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            int start = mContainerHelper.hasHeader() ? 1 : 0;
+            notifyItemRangeChanged(positionStart + start, itemCount);
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
+            int start = mContainerHelper.hasHeader() ? 1 : 0;
+            notifyItemRangeChanged(positionStart + start, itemCount, payload);
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            int start = mContainerHelper.hasHeader() ? 1 : 0;
+            notifyItemRangeInserted(positionStart + start, itemCount);
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            int start = mContainerHelper.hasHeader() ? 1 : 0;
+            notifyItemRangeRemoved(positionStart + start, itemCount);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            int start = mContainerHelper.hasHeader() ? 1 : 0;
+            notifyItemMoved(fromPosition + start, toPosition + start);
+        }
+    };
+
     public RecyWrapperAdapter(RecyclerView.Adapter adapter, ContainerHelper containerHelper) {
         this.mAdapter = adapter;
         this.mContainerHelper = containerHelper;
+
+        mAdapter.registerAdapterDataObserver(observer);
     }
 
     public RecyclerView.Adapter getAdapter() {

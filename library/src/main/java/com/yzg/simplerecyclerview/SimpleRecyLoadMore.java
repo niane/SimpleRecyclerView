@@ -5,7 +5,7 @@ package com.yzg.simplerecyclerview;
  */
 
 public interface SimpleRecyLoadMore {
-    void onLoading();
-    void onLoadOver();
-    void onLoadError();
+    void onLoading(String msg);
+    void onLoadOver(String msg);
+    void onLoadError(String msg);
 }
