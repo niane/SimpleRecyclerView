@@ -27,7 +27,7 @@ ext {
 
     publishGroupId = 'com.yzg.simplerecyclerview'
     artifact = 'library'
-    libraryVersion = '1.0'
+    libraryVersion = '1.0.1'
 
     libraryDesc = 'Android SimpleRecyclerView'
 
