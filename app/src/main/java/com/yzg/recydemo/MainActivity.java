@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int OK_1 = 4;
     private static final int OK_2 = 5;
     private static final int OVER_1 = 6;
+    private static final int ERROR_1 = 7;
 
     private int pageNO = 0;
     private final int paseSize = 20;
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         simpleRecyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                int state = new Random().nextInt(100)%7;
+                int state = new Random(System.currentTimeMillis()).nextInt(100)%8;
                 int size = 0;
                 switch (state){
                     case OK:
@@ -119,6 +120,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case ERROR:
+                        if(pageNO == 0){
+                            mList.clear();
+                            simpleRecyclerView.setStatus(SimpleRecyclerView.STATUS_NETWORK_ERROR);
+                        }else {
+                            simpleRecyclerView.setStatus(SimpleRecyclerView.STATUS_LOAD_MORE_ERROR, "出错了，点击重试");
+                        }
+                        break;
+                    case ERROR_1:
                         if(pageNO == 0){
                             mList.clear();
                             simpleRecyclerView.setStatus(SimpleRecyclerView.STATUS_REFRESH_ERROR, "出错了，点击重试");

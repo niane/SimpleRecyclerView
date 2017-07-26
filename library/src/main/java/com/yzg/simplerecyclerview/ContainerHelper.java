@@ -168,7 +168,22 @@ class ContainerHelper implements IContainer{
                         @Override
                         public void onClick(View v) {
                             if(onLoadListener != null){
-//                                simpleRecyEmpty.onLoading();
+                                onLoadListener.onRefresh();
+                            }
+                        }
+                    });
+                }
+                break;
+            case SimpleRecyclerView.STATUS_NETWORK_ERROR:
+                mLoadMoreFooterContainer = null;
+                mEmptyContainer = tmpEmptyContainer;
+                if(hasEmpty()){
+                    final SimpleRecyEmpty simpleRecyEmpty = (SimpleRecyEmpty) mEmptyContainer.getChildAt(0);
+                    simpleRecyEmpty.onNetworkError(msg);
+                    mEmptyContainer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(onLoadListener != null){
                                 onLoadListener.onRefresh();
                             }
                         }
@@ -185,7 +200,6 @@ class ContainerHelper implements IContainer{
                         @Override
                         public void onClick(View v) {
                             if(onLoadListener != null){
-//                                simpleRecyEmpty.onLoading();
                                 onLoadListener.onRefresh();
                             }
                         }
@@ -220,7 +234,6 @@ class ContainerHelper implements IContainer{
                         @Override
                         public void onClick(View v) {
                             if(onLoadListener != null){
-//                                setStatus(SimpleRecyclerView.STATUS_LOADING_MORE);
                                 onLoadListener.onLoadMore();
                             }
                         }

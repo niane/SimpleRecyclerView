@@ -29,7 +29,7 @@ public class SimpleRecyclerView extends RecyclerView implements IContainer{
      **/
     public static final int STATUS_REFRESHING = 1;
     /**
-     * 刷新数据时出错
+     * 刷新数据时一般出错
      **/
     public static final int STATUS_REFRESH_ERROR = 2;
     /**
@@ -48,8 +48,12 @@ public class SimpleRecyclerView extends RecyclerView implements IContainer{
      * 加载更多数据时出错
      **/
     public static final int STATUS_LOAD_MORE_ERROR = 6;
+    /**
+     * 刷新数据时网络连接错误
+     **/
+    public static final int STATUS_NETWORK_ERROR = 7;
 
-    @IntDef({STATUS_DEFAULT, STATUS_REFRESHING, STATUS_REFRESH_ERROR, STATUS_REFRESH_EMPTY, STATUS_LOADING_MORE, STATUS_LOAD_MORE_OVER, STATUS_LOAD_MORE_ERROR})
+    @IntDef({STATUS_DEFAULT, STATUS_REFRESHING, STATUS_REFRESH_ERROR, STATUS_REFRESH_EMPTY, STATUS_LOADING_MORE, STATUS_LOAD_MORE_OVER, STATUS_LOAD_MORE_ERROR, STATUS_NETWORK_ERROR})
     @Retention(RetentionPolicy.SOURCE)
     @interface Status {
     }
@@ -225,9 +229,9 @@ public class SimpleRecyclerView extends RecyclerView implements IContainer{
 
     public void setStatus(@Status int status, String msg) {
         /**
-         * 当status为 STATUS_REFRESHING || STATUS_REFRESH_EMPTY || STATUS_REFRESH_ERROR时，必须保证数据为空
+         * 当status为 STATUS_REFRESHING || STATUS_REFRESH_EMPTY || STATUS_REFRESH_ERROR || STATUS_NETWORK_ERROR时，必须保证数据为空
          */
-        if(status == STATUS_REFRESHING || status == STATUS_REFRESH_EMPTY || status == STATUS_REFRESH_ERROR){
+        if(status == STATUS_REFRESHING || status == STATUS_REFRESH_EMPTY || status == STATUS_REFRESH_ERROR || status == STATUS_NETWORK_ERROR){
             if(getUserAdapter() != null && getUserAdapter().getItemCount() != 0){
                 mContainerHelper.setStatus(STATUS_DEFAULT, msg);
             }else {

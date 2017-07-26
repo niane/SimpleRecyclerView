@@ -35,7 +35,17 @@ public class DefaultEmptyView extends FrameLayout implements SimpleRecyEmpty {
 
     @Override
     public void onRefreshError(String msg) {
-        txtLoading.setText(TextUtils.isEmpty(msg) ? "出错了" : msg);
+        imgError.setImageResource(R.drawable.error);
+        txtLoading.setText(TextUtils.isEmpty(msg) ? "出错了，请重新尝试" : msg);
+        imgError.setVisibility(VISIBLE);
+        imgEmpty.setVisibility(GONE);
+        progressBar.setVisibility(GONE);
+    }
+
+    @Override
+    public void onNetworkError(String msg) {
+        imgError.setImageResource(R.drawable.net_error);
+        txtLoading.setText(TextUtils.isEmpty(msg) ? "网络出错了，请查看网络连接重新尝试" : msg);
         imgError.setVisibility(VISIBLE);
         imgEmpty.setVisibility(GONE);
         progressBar.setVisibility(GONE);
