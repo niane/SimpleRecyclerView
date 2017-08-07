@@ -16,7 +16,6 @@ public class SimpleMultiRecyAdapter<T> extends RecyclerView.Adapter<RecyViewHold
     private List<T> dataList;
 
     protected ItemViewDelegateManager mItemViewDelegateManager;
-    protected OnItemClickListener onItemClickListener;
 
     public SimpleMultiRecyAdapter(Context mContext, List<T> dataList) {
         this.mContext = mContext;
@@ -49,14 +48,6 @@ public class SimpleMultiRecyAdapter<T> extends RecyclerView.Adapter<RecyViewHold
     public void onBindViewHolder(final RecyViewHolder holder, final int position) {
         convert(holder, dataList.get(position));
         holder.itemView.setClickable(true);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(holder.itemView, position);
-                }
-            }
-        });
     }
 
     public void onViewHolderCreated(RecyViewHolder holder, View itemView) {
@@ -80,13 +71,5 @@ public class SimpleMultiRecyAdapter<T> extends RecyclerView.Adapter<RecyViewHold
 
     protected boolean useItemViewDelegateManager() {
         return mItemViewDelegateManager.getItemViewDelegateCount() > 0;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
     }
 }
