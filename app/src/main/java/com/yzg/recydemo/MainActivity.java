@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(simpleRecyclerView.getStatus() != SimpleRecyclerView.STATUS_REFRESHING){
                     mList.clear();
-                    //须先清楚数据
+                    //须先清除数据
                     simpleRecyclerView.setStatus(SimpleRecyclerView.STATUS_REFRESHING);
                     pageNO = 0;
                     requestDataList();
