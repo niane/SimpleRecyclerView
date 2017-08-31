@@ -3,13 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center_vertical"
-    android:divider="@drawable/divider_horizontal"
-    android:dividerPadding="15dp"
-    android:showDividers="end">
+    android:gravity="center_vertical">
 
     <TextView
-        android:layout_gravity="center_vertical"
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

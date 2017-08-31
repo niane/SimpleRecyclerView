@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.yzg.simplerecyclerview.SimpleDecoration;
 import com.yzg.simplerecyclerview.SimpleRecyclerView;
 import com.yzg.simplerecyclerview.adapter.RecyViewHolder;
 import com.yzg.simplerecyclerview.adapter.SimpleRecyAdapter;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         simpleRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         simpleRecyclerView.setAdapter(adapter);
+        simpleRecyclerView.addItemDecoration(new SimpleDecoration(this, LinearLayoutManager.VERTICAL));
         simpleRecyclerView.setOnLoadListener(new SimpleRecyclerView.OnLoadListener() {
             @Override
             public void onLoadMore() {
